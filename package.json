@@ -1,0 +1,33 @@
+{
+  "name": "sample-player",
+  "version": "1.0.0",
+  "description": "Sample player based on BufferSourceNode",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openmusic/sample-player"
+  },
+  "keywords": [
+    "web",
+    "audio",
+    "samples",
+    "buffer",
+    "buffersource"
+  ],
+  "author": "sole",
+  "license": "Apache 2",
+  "bugs": {
+    "url": "https://github.com/openmusic/sample-player/issues"
+  },
+  "homepage": "https://github.com/openmusic/sample-player",
+  "dependencies": {
+    "gulp": "^3.8.9",
+    "openmusic-brown-noise": "^1.0.1",
+    "openmusic-demo-gulp-tasks": "^1.1.0",
+    "openmusic-oscilloscope": "^1.0.0"
+  }
+}
