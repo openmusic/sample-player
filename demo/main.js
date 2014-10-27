@@ -29,7 +29,6 @@ function onBufferLoaded(buffer) {
 	player.buffer = buffer;
 	//player.loop = true;
 	player.start();
-	console.log('wwww');
 }
 
 function onBufferLoadError(err) {

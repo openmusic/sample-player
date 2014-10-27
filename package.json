@@ -1,5 +1,5 @@
 {
-  "name": "sample-player",
+  "name": "openmusic-sample-player",
   "version": "1.0.0",
   "description": "Sample player based on BufferSourceNode",
   "main": "index.js",
