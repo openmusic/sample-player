@@ -27,7 +27,11 @@ request.send();
 function onBufferLoaded(buffer) {
 	console.log('megabuffer', buffer);
 	player.buffer = buffer;
-	//player.loop = true;
+	player.loop = true;
+	// The loop points are in seconds
+	// Interestingly Chrome won't play anything at all if the loop points are 'outside' the sample duration
+	player.loopStart = 0.1;
+	player.loopEnd = 0.3;
 	player.start();
 }
 
