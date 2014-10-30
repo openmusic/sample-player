@@ -27,7 +27,7 @@
   "dependencies": {
     "gulp": "^3.8.9",
     "openmusic-brown-noise": "^1.0.1",
-    "openmusic-demo-gulp-tasks": "^1.1.0",
+    "openmusic-demo-gulp-tasks": "^1.2.0",
     "openmusic-oscilloscope": "^1.0.0"
   }
 }
