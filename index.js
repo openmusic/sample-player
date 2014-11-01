@@ -75,6 +75,10 @@ function SamplePlayer(context) {
 		};
 	}
 
+	function getBufferSourceProperty(name) {
+		return bufferSourceProperties[name];
+	}
+
 	function setBufferSourceProperty(name, value) {
 		
 		bufferSourceProperties[name] = value;
