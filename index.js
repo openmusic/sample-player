@@ -29,7 +29,12 @@ function SamplePlayer(context) {
 			duration = duration !== undefined ? duration : sampleLength - offset;
 		}
 
-		// TODO disconnect if existing
+		// Disconnect if existing, remove events listeners
+		if(bufferSource) {
+			bufferSource.removeEventListener('ended', onEnded);
+			bufferSource.disconnect(node);
+			bufferSource = null;
+		}
 
 		initialiseBufferSource();
 
@@ -48,7 +53,7 @@ function SamplePlayer(context) {
 	function initialiseBufferSource() {
 		
 		bufferSource = context.createBufferSource();
-		bufferSource.onended = onEnded;
+		bufferSource.addEventListener('ended', onEnded);
 		bufferSource.connect(node);
 
 		Object.keys(bufferSourceProperties).forEach(function(name) {
