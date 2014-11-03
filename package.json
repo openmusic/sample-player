@@ -1,11 +1,10 @@
 {
   "name": "openmusic-sample-player",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Sample player based on BufferSourceNode",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "gulp build"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",

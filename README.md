@@ -36,7 +36,7 @@ Firefox: go to `about:config`, find `dom.webcomponents.enabled` and set it to tr
 
 Chrome: maybe nothing to do?
 
-Run `npm install` so it installs stuff for the demo. The `gulp build` script will be run for you automatically, and then you can open `build/index.html` for the demo.
+Run `npm install` so it installs stuff for the demo. Then `gulp build`, and then you can open `build/index.html` for the demo.
 
 If you do changes in the code, you'll need to rebuild the demo. Use `gulp build` or `gulp` only for running `build` and setting up a `watch` loop that automatically rebuilds the demo as you change its files.
 
