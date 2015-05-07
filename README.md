@@ -28,6 +28,18 @@ player.start();
 
 ```
 
+Multiple plays can be scheduled:
+
+```javascript
+var now = audioContext.currentTime;
+player.start(now + 1); // play in 1 second
+player.start(now + 2); // play in 2 seconds
+player.start(now + 3); // play in 3 seconds
+// ...
+player.stop(); // stop all scheduled plays
+```
+
+
 ## Demo
 
 ** YOU NEED SUPPORT FOR WEB COMPONENTS IN YOUR BROWSER BECAUSE WE'RE NOT SHIMMING ANYTHING IN **
@@ -36,7 +48,7 @@ Firefox: go to `about:config`, find `dom.webcomponents.enabled` and set it to tr
 
 Chrome: maybe nothing to do?
 
-Run `npm install` so it installs stuff for the demo. The `gulp build` script will be run for you automatically, and then you can open `build/index.html` for the demo.
+Run `npm install` so it installs stuff for the demo. Then `gulp build`, and then you can open `build/index.html` for the demo.
 
 If you do changes in the code, you'll need to rebuild the demo. Use `gulp build` or `gulp` only for running `build` and setting up a `watch` loop that automatically rebuilds the demo as you change its files.
 
