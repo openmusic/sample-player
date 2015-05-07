@@ -2,6 +2,9 @@ var SamplePlayer = require('../index');
 var generateBrownNoise = require('openmusic-brown-noise');
 var arrayToAudioBuffer = require('openmusic-array-to-audiobuffer');
 
+// Make sure web components support is available
+require('webcomponents-lite');
+
 // register the oscilloscope component so we can use it
 require('openmusic-oscilloscope').register('openmusic-oscilloscope');
 require('openmusic-slider').register('openmusic-slider');

@@ -1,6 +1,6 @@
 {
   "name": "openmusic-sample-player",
-  "version": "1.4.1",
+  "version": "1.4.3",
   "description": "Sample player based on BufferSourceNode",
   "main": "index.js",
   "scripts": {
@@ -34,6 +34,7 @@
     "openmusic-brown-noise": "^1.0.2",
     "openmusic-demo-gulp-tasks": "^1.5.0",
     "openmusic-oscilloscope": "^1.0.0",
-    "openmusic-slider": "^1.0.0"
+    "openmusic-slider": "^1.0.0",
+    "webcomponents-lite": "^0.6.0"
   }
 }
