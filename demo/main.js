@@ -1,75 +1,109 @@
 var SamplePlayer = require('../index');
 var generateBrownNoise = require('openmusic-brown-noise');
+var arrayToAudioBuffer = require('openmusic-array-to-audiobuffer');
 
 // register the oscilloscope component so we can use it
 require('openmusic-oscilloscope').register('openmusic-oscilloscope');
 require('openmusic-slider').register('openmusic-slider');
 
 var ac = new AudioContext();
-var player = SamplePlayer(ac);
 var analyser = ac.createAnalyser();
 var oscilloscope = document.querySelector('openmusic-oscilloscope');
-
-player.connect(analyser);
 analyser.connect(ac.destination);
-
 oscilloscope.attachTo(analyser);
 
-document.querySelector('button').addEventListener('click', onStartPressed);
-document.querySelector('input[type=checkbox]').addEventListener('change', onLoopChanged);
+initDemo1();
+initDemo2();
 
-var loopStart = document.getElementById('loopStart');
-var loopEnd = document.getElementById('loopEnd');
+function initDemo1() {
 
-loopStart.addEventListener('input', ensureLoopSanity);
-loopEnd.addEventListener('input', ensureLoopSanity);
+	var player = SamplePlayer(ac);
 
-var request = new XMLHttpRequest();
-request.open('GET', 'data/amen.ogg', true);
-request.responseType = 'arraybuffer';
+	player.connect(analyser);
 
-request.onload = function() {
-	ac.decodeAudioData(request.response, onBufferLoaded, onBufferLoadError);
-};
+	document.getElementById('playSample').addEventListener('click', onStartPressed);
+	document.querySelector('input[type=checkbox]').addEventListener('change', onLoopChanged);
 
-request.send();
+	var loopStart = document.getElementById('loopStart');
+	var loopEnd = document.getElementById('loopEnd');
 
-function onBufferLoaded(buffer) {
-	player.buffer = buffer;
-}
+	loopStart.addEventListener('input', ensureLoopSanity);
+	loopEnd.addEventListener('input', ensureLoopSanity);
 
-function onBufferLoadError(err) {
-	console.error('oh no', err);
-}
+	var request = new XMLHttpRequest();
+	request.open('GET', 'data/amen.ogg', true);
+	request.responseType = 'arraybuffer';
 
-function onStartPressed() {
-	player.start();
-}
+	request.onload = function() {
+		ac.decodeAudioData(request.response, onBufferLoaded, onBufferLoadError);
+	};
 
-function onLoopChanged() {
-	player.loop = this.checked;
-}
+	request.send();
 
-function ensureLoopSanity(e) {
-	// don't let loopEnd be < loopStart, and the opposite
-	var startValue = loopStart.value * 1;
-	var endValue = loopEnd.value * 1;
-
-	if(this === loopStart && ( startValue >= endValue )) {
-		e.preventDefault();
-		e.stopPropagation();
-		loopStart.value = endValue - 0.01;
-	} else if(this === loopEnd && ( endValue <= startValue )) {
-		e.preventDefault();
-		e.stopPropagation();
-		loopEnd.value = startValue + 0.01;
+	function onBufferLoaded(buffer) {
+		player.buffer = buffer;
 	}
 
-	// The loop points are in seconds
-	// Interestingly Chrome won't play anything at all if the loop points are 'outside' the sample duration
-	var sampleLength = player.buffer.length / ac.sampleRate;
+	function onBufferLoadError(err) {
+		console.error('oh no', err);
+	}
 
-	player.loopStart = sampleLength * loopStart.value;
-	player.loopEnd = sampleLength * loopEnd.value;
+	function onStartPressed() {
+		player.start();
+	}
 
+	function onLoopChanged() {
+		player.loop = this.checked;
+	}
+
+	function ensureLoopSanity(e) {
+		// don't let loopEnd be < loopStart, and the opposite
+		var startValue = loopStart.value * 1;
+		var endValue = loopEnd.value * 1;
+
+		if(this === loopStart && ( startValue >= endValue )) {
+			e.preventDefault();
+			e.stopPropagation();
+			loopStart.value = endValue - 0.01;
+		} else if(this === loopEnd && ( endValue <= startValue )) {
+			e.preventDefault();
+			e.stopPropagation();
+			loopEnd.value = startValue + 0.01;
+		}
+
+		// The loop points are in seconds
+		// Interestingly Chrome won't play anything at all if the loop points are 'outside' the sample duration
+		var sampleLength = player.buffer.length / ac.sampleRate;
+
+		player.loopStart = sampleLength * loopStart.value;
+		player.loopEnd = sampleLength * loopEnd.value;
+
+	}
+
+}
+
+
+function initDemo2() {
+	var noiseData = generateBrownNoise(ac.sampleRate / 4); // 0.25 seconds of noise
+	var buffer = arrayToAudioBuffer({
+		context: ac,
+		data: noiseData
+	});
+	var samplePlayer = SamplePlayer(ac);
+	samplePlayer.connect(ac.destination);
+	samplePlayer.buffer = buffer;
+	
+	document.getElementById('playNoise').addEventListener('click', function() {
+		clearScheduledNoise();
+		scheduleNoise();
+	});
+
+	function clearScheduledNoise() {
+		samplePlayer.cancelScheduledEvents();
+	}
+
+	function scheduleNoise() {
+		// TMP
+		samplePlayer.start();
+	}
 }

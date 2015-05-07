@@ -2,16 +2,22 @@
 <html>
 	<head>
 		<meta charset="utf8">
-		<title>sample player demo</title>
+		<title>sample player demos</title>
 		<script src="bundle.js" defer></script>
 	</head>
 	<body>
 		<h1>sample player demo</h1>
+		<h2>Demo 1: looping sample</h2>
 		<openmusic-oscilloscope></openmusic-oscilloscope><br />
 		<input type="checkbox"> loop?<br />
 		loop start <openmusic-slider min="0" max="1" step="0.01" value="0" id="loopStart"></openmusic-slider><br />
 		loop end <openmusic-slider min="0" max="1" step="0.01" value="1" id="loopEnd"></openmusic-slider><br />
-		<button>play sample</button>
+		<button id="playSample">play sample</button>
+
+		<h2>Demo 2: scheduled noise</h2>
+		<label>how many bursts? <openmusic-slider min="1" max="10" step="1" value="1" id="bursts"></openmusic-slider></label><br />
+		<label>every how many seconds? <openmusic-slider min="0.1" max="10" step="0.1" value="1" id="rate"></openmusic-slider></label><br />
+		<button id="playNoise">let there be noise</button>
 	</body>
 </html>
 
