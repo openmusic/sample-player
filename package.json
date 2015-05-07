@@ -1,6 +1,6 @@
 {
   "name": "openmusic-sample-player",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Sample player based on BufferSourceNode",
   "main": "index.js",
   "scripts": {
@@ -24,10 +24,11 @@
     "url": "https://github.com/openmusic/sample-player/issues"
   },
   "homepage": "https://github.com/openmusic/sample-player",
-  "dependencies": {
-    "gulp": "^3.8.9",
-    "openmusic-brown-noise": "^1.0.1",
-    "openmusic-demo-gulp-tasks": "^1.2.0",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "openmusic-brown-noise": "^1.0.2",
+    "openmusic-demo-gulp-tasks": "^1.5.0",
     "openmusic-oscilloscope": "^1.0.0",
     "openmusic-slider": "^1.0.0"
   }
