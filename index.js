@@ -43,18 +43,24 @@ function SamplePlayer(context) {
 		// Poly: it's fine, just add a new one to the list
 		var bs = makeBufferSource();
 
-		console.log('start', 'when', when, 'offset', offset, 'duration', duration);
+		// console.log('start', 'when', when, 'offset', offset, 'duration', duration);
 		bs.start(when, offset, duration);
 		
 	};
 
 	node.stop = function(when) {
-		// TODO bufferSource.stop(when);
-		// stop currently playing source (?) but how do you know which one is it
+		// For ease of development, we'll just stop to all the sources and empty the queue
+		// If you need to re-schedule them, you'll need to call start() again.
+		var keys = Object.keys(bufferSources);
+		keys.forEach(function(k) {
+			var source = bufferSources[k];
+			source.stop(when);
+			removeFromQueue(source);
+		});
 	};
 
 	node.cancelScheduledEvents = function(when) {
-		// TODO: when there is automation
+		// TODO: when/if there is automation
 	};
 
 	return node;
@@ -79,16 +85,13 @@ function SamplePlayer(context) {
 
 	function onBufferEnded(e) {
 		var source = e.target;
-		console.log(source.id, 'ended playing');
 		source.disconnect();
 		// also remove from list
 		removeFromQueue(source);
 	}
 
 	function removeFromQueue(source) {
-		console.log('removing', source.id);
 		delete bufferSources[source.id];
-		console.log(Object.keys(bufferSources).length, 'left');
 	}
 
 }

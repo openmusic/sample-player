@@ -103,7 +103,7 @@ function initDemo2() {
 	});
 
 	function clearScheduledNoise() {
-		samplePlayer.cancelScheduledEvents();
+		samplePlayer.stop();
 	}
 
 	function scheduleNoise() {
