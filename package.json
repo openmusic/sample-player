@@ -1,6 +1,6 @@
 {
   "name": "openmusic-sample-player",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "Sample player based on BufferSourceNode",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,9 @@
     "url": "https://github.com/openmusic/sample-player/issues"
   },
   "homepage": "https://github.com/openmusic/sample-player",
-  "dependencies": {},
+  "dependencies": {
+    "setter-getterify": "^1.1.0"
+  },
   "devDependencies": {
     "gulp": "^3.8.11",
     "openmusic-array-to-audiobuffer": "^1.0.0",

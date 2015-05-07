@@ -1,20 +1,28 @@
+var setterGetterify = require('setter-getterify');
+
 function SamplePlayer(context) {
 	var node = context.createGain();
-	var bufferSource;
+	var nodeProperties = {
+		buffer: null,
+		loop: false,
+		loopStart: 0,
+		loopEnd: 0
+	};
+
+	var bufferSourcesCount = 0;
+	var bufferSources = {};
 	var bufferSourceProperties = {};
 
-	['buffer', 'loop', 'loopStart', 'loopEnd'].forEach(function(name) {
-		Object.defineProperty(node, name, makeBufferSourceGetterSetter(name));
-	});
+	setterGetterify(node, nodeProperties);
 
 	// TODO: playbackRate which needs to be an AudioParam
+	// TODO: player can be mono or poly i.e. only one buffer can play at a given time or many can overlap
 
 	node.start = function(when, offset, duration) {
-		// console.log('start', 'when', when, 'offset', offset, 'duration', duration);
-
-		var buffer = bufferSourceProperties['buffer'];
+		
+		var buffer = nodeProperties['buffer'];
 		if(!buffer) {
-			console.info('no buffer to play so byeee');
+			console.info('OpenMusic SamplePlayer: no buffer to play, so byeee!');
 			return;
 		}
 
@@ -29,72 +37,60 @@ function SamplePlayer(context) {
 			duration = duration !== undefined ? duration : sampleLength - offset;
 		}
 
-		// Disconnect if existing, remove events listeners
-		if(bufferSource) {
-			bufferSource.removeEventListener('ended', onEnded);
-			bufferSource.disconnect(node);
-			bufferSource = null;
-		}
+		// Mono: invalidate all scheduled bufferSources to make sure only one is played (retrig mode)
+		// TODO implement invalidation code ...
 
-		initialiseBufferSource();
+		// Poly: it's fine, just add a new one to the list
+		var bs = makeBufferSource();
 
-		bufferSource.start(when, offset, duration);
-
+		console.log('start', 'when', when, 'offset', offset, 'duration', duration);
+		bs.start(when, offset, duration);
+		
 	};
 
 	node.stop = function(when) {
-		bufferSource.stop(when);
+		// TODO bufferSource.stop(when);
+		// stop currently playing source (?) but how do you know which one is it
 	};
 
 	node.cancelScheduledEvents = function(when) {
 		// TODO: when there is automation
 	};
 
-	function initialiseBufferSource() {
-		
-		bufferSource = context.createBufferSource();
-		bufferSource.addEventListener('ended', onEnded);
-		bufferSource.connect(node);
+	return node;
+	
+	//~~~
 
-		Object.keys(bufferSourceProperties).forEach(function(name) {
-			bufferSource[name] = bufferSourceProperties[name];
+	function makeBufferSource() {
+
+		var source = context.createBufferSource();
+		source.addEventListener('ended', onBufferEnded);
+		source.connect(node);
+		source.id = bufferSourcesCount++;
+		bufferSources[source.id] = source;
+
+		Object.keys(nodeProperties).forEach(function(name) {
+			source[name] = nodeProperties[name];
 		});
 
+		return source;
+		
 	}
 
-	function onEnded(e) {
-		var t = e.target;
-		t.disconnect(node);
-		initialiseBufferSource();
+	function onBufferEnded(e) {
+		var source = e.target;
+		console.log(source.id, 'ended playing');
+		source.disconnect();
+		// also remove from list
+		removeFromQueue(source);
 	}
 
-	function makeBufferSourceGetterSetter(property) {
-		return {
-			get: function() {
-				return getBufferSourceProperty(property);
-			},
-			set: function(v) {
-				setBufferSourceProperty(property, v);
-			},
-			enumerable: true
-		};
+	function removeFromQueue(source) {
+		console.log('removing', source.id);
+		delete bufferSources[source.id];
+		console.log(Object.keys(bufferSources).length, 'left');
 	}
 
-	function getBufferSourceProperty(name) {
-		return bufferSourceProperties[name];
-	}
-
-	function setBufferSourceProperty(name, value) {
-
-		bufferSourceProperties[name] = value;
-
-		if(bufferSource) {
-			bufferSource[name] = value;
-		}
-
-	}
-
-	return node;
 }
 
 module.exports = SamplePlayer;

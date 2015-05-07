@@ -84,7 +84,11 @@ function initDemo1() {
 
 
 function initDemo2() {
-	var noiseData = generateBrownNoise(ac.sampleRate / 4); // 0.25 seconds of noise
+
+	var burstsInput = document.getElementById('bursts');
+	var rateInput = document.getElementById('rate');
+	
+	var noiseData = generateBrownNoise(ac.sampleRate / 8); // 0.125 seconds of noise
 	var buffer = arrayToAudioBuffer({
 		context: ac,
 		data: noiseData
@@ -103,7 +107,20 @@ function initDemo2() {
 	}
 
 	function scheduleNoise() {
-		// TMP
-		samplePlayer.start();
+		var bursts = burstsInput.value * 1.0;
+		var rate = rateInput.value * 1.0;
+
+		var now = ac.currentTime;
+		console.log(now, bursts, rate);
+
+		var when = now;
+
+		for(var i = 0; i < bursts; i++) {
+				
+			samplePlayer.start(when);
+
+			when += rate;
+			
+		}
 	}
 }
