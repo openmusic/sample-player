@@ -19,7 +19,9 @@ function SamplePlayer(context) {
 	nodeProperties.pitchBend = pitchBend.gain;
 	pitchBend.gain.setValueAtTime(0, context.currentTime);
 
-	setterGetterify(node, nodeProperties);
+	setterGetterify(node, nodeProperties, {
+		afterSetting: onNodePropertySet
+	});
 
 	// TODO: playbackRate which needs to be an AudioParam
 	// TODO: player can be mono or poly i.e. only one buffer can play at a given time or many can overlap
@@ -97,6 +99,17 @@ function SamplePlayer(context) {
 		pitchBend.disconnect(source.playbackRate);
 		// also remove from list
 		removeFromQueue(source);
+	}
+
+	function onNodePropertySet(property, value) {
+		if(property === 'loopStart' || property === 'loopEnd') {
+			var keys = Object.keys(bufferSources);
+			keys.forEach(function(k) {
+				var src = bufferSources[k];
+				src.loopStart = nodeProperties.loopStart;
+				src.loopEnd = nodeProperties.loopEnd;
+			});
+		}
 	}
 
 	function removeFromQueue(source) {
