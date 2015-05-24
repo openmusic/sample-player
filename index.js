@@ -94,6 +94,7 @@ function SamplePlayer(context) {
 	function onBufferEnded(e) {
 		var source = e.target;
 		source.disconnect();
+		pitchBend.disconnect(source.playbackRate);
 		// also remove from list
 		removeFromQueue(source);
 	}
