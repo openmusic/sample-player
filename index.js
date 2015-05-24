@@ -1,4 +1,5 @@
 var setterGetterify = require('setter-getterify');
+var DCBias = require('openmusic-dcbias');
 
 function SamplePlayer(context) {
 	var node = context.createGain();
@@ -6,12 +7,17 @@ function SamplePlayer(context) {
 		buffer: null,
 		loop: false,
 		loopStart: 0,
-		loopEnd: 0
+		loopEnd: 0,
+		pitchBend: null
 	};
 
 	var bufferSourcesCount = 0;
 	var bufferSources = {};
 	var bufferSourceProperties = {};
+	var pitchBend = DCBias(context);
+
+	nodeProperties.pitchBend = pitchBend.gain;
+	pitchBend.gain.setValueAtTime(0, context.currentTime);
 
 	setterGetterify(node, nodeProperties);
 
@@ -74,6 +80,8 @@ function SamplePlayer(context) {
 		source.connect(node);
 		source.id = bufferSourcesCount++;
 		bufferSources[source.id] = source;
+
+		pitchBend.connect(source.playbackRate);
 
 		Object.keys(nodeProperties).forEach(function(name) {
 			source[name] = nodeProperties[name];

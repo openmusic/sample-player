@@ -25,13 +25,19 @@ function initDemo1() {
 	player.connect(analyser);
 
 	document.getElementById('playSample').addEventListener('click', onStartPressed);
-	document.querySelector('input[type=checkbox]').addEventListener('change', onLoopChanged);
 
+
+	var shouldLoop = document.querySelector('input[type=checkbox]');
 	var loopStart = document.getElementById('loopStart');
 	var loopEnd = document.getElementById('loopEnd');
+	var pitchBend = document.getElementById('pitchBend');
 
+	shouldLoop.addEventListener('change', onLoopChanged);
 	loopStart.addEventListener('input', ensureLoopSanity);
 	loopEnd.addEventListener('input', ensureLoopSanity);
+	pitchBend.addEventListener('input', updatePitchBend);
+
+	shouldLoop.checked = false;
 
 	var request = new XMLHttpRequest();
 	request.open('GET', 'data/amen.ogg', true);
@@ -52,6 +58,7 @@ function initDemo1() {
 	}
 
 	function onStartPressed() {
+		player.stop();
 		player.start();
 	}
 
@@ -80,8 +87,13 @@ function initDemo1() {
 
 		player.loopStart = sampleLength * loopStart.value;
 		player.loopEnd = sampleLength * loopEnd.value;
-
 	}
+
+	function updatePitchBend(e) {
+		var value = pitchBend.value * 1.0;
+		player.pitchBend.setValueAtTime(value, ac.currentTime);
+	}
+
 
 }
 

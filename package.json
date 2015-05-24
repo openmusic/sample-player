@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/openmusic/sample-player",
   "dependencies": {
+    "openmusic-dcbias": "^1.0.0",
     "setter-getterify": "^1.1.0"
   },
   "devDependencies": {
