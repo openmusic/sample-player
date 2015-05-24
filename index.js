@@ -102,14 +102,13 @@ function SamplePlayer(context) {
 	}
 
 	function onNodePropertySet(property, value) {
-		if(property === 'loopStart' || property === 'loopEnd') {
-			var keys = Object.keys(bufferSources);
-			keys.forEach(function(k) {
-				var src = bufferSources[k];
-				src.loopStart = nodeProperties.loopStart;
-				src.loopEnd = nodeProperties.loopEnd;
-			});
-		}
+		var keys = Object.keys(bufferSources);
+		keys.forEach(function(k) {
+			var src = bufferSources[k];
+			src.loopStart = nodeProperties.loopStart;
+			src.loopEnd = nodeProperties.loopEnd;
+			src.loop = nodeProperties.loop;
+		});
 	}
 
 	function removeFromQueue(source) {
