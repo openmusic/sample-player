@@ -23,7 +23,7 @@ function SamplePlayer(context) {
 		afterSetting: onNodePropertySet
 	});
 
-	// TODO: playbackRate which needs to be an AudioParam
+	
 	// TODO: player can be mono or poly i.e. only one buffer can play at a given time or many can overlap
 
 	node.start = function(when, offset, duration) {
