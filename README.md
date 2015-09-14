@@ -39,6 +39,17 @@ player.start(now + 3); // play in 3 seconds
 player.stop(); // stop all scheduled plays
 ```
 
+## Attributes
+
+Each instance of `SamplePlayer` has some attributes you can access:
+
+### `loop` (Boolean)
+
+### `loopStart` (Number)
+
+### `loopEnd` (Number)
+
+### `pitchBend` (AudioParam)
 
 ## Demo
 
