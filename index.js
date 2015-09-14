@@ -48,6 +48,8 @@ function SamplePlayer(context) {
 		// Mono: invalidate all scheduled bufferSources to make sure only one is played (retrig mode)
 		// TODO implement invalidation code ...
 
+		pitchBend.start();
+
 		// Poly: it's fine, just add a new one to the list
 		var bs = makeBufferSource();
 
@@ -65,6 +67,8 @@ function SamplePlayer(context) {
 			source.stop(when);
 			removeFromQueue(source);
 		});
+		
+		pitchBend.stop(when);
 	};
 
 	node.cancelScheduledEvents = function(when) {
@@ -95,6 +99,7 @@ function SamplePlayer(context) {
 
 	function onBufferEnded(e) {
 		var source = e.target;
+		source.stop();
 		source.disconnect();
 		pitchBend.disconnect(source.playbackRate);
 		// also remove from list
