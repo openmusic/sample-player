@@ -1,12 +1,12 @@
 {
   "name": "openmusic-sample-player",
-  "version": "1.5.0",
   "description": "Sample player based on BufferSourceNode",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\" && exit 0",
     "build": "gulp build",
-    "watch": "gulp watch"
+    "watch": "gulp watch",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
     "openmusic-demo-gulp-tasks": "^1.5.0",
     "openmusic-oscilloscope": "^1.0.0",
     "openmusic-slider": "^2.1.0",
-    "webcomponents-lite": "^0.6.0"
+    "webcomponents-lite": "^0.6.0",
+    "semantic-release": "^4.3.4"
   }
 }
