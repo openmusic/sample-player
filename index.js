@@ -48,7 +48,7 @@ function SamplePlayer(context) {
 		// Mono: invalidate all scheduled bufferSources to make sure only one is played (retrig mode)
 		// TODO implement invalidation code ...
 
-		pitchBend.start();
+		pitchBend.start(when);
 
 		// Poly: it's fine, just add a new one to the list
 		var bs = makeBufferSource();
